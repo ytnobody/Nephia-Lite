@@ -25,7 +25,7 @@ sub run (&@) {
 
     {
         no strict 'refs';
-        my $renderer = ${$caller.'RENDERER'};
+        my $renderer = ${$caller.'::RENDERER'};
         if ( !$renderer ) {
              my $content = _read_section_data($caller);
             $renderer = ${$caller.'::RENDERER'} ||= build_template($content) if $content;
