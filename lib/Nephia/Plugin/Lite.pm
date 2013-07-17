@@ -11,15 +11,12 @@ use Nephia::Core ();
 use Nephia::GlobalVars;
 
 our $VERSION = "0.04";
-our $APP_CLASS;
-our $ORIGIN_RUN;
 
 our @EXPORT = qw/run/;
 
 sub load {
     my ($class, $app) = @_;
-    $APP_CLASS = $app;
-    $ORIGIN_RUN = $APP_CLASS->can('run');
+    Nephia::GlobalVars->set(app_class => $app, origin_run => $app->can('run'));
 }
 
 sub run (&@) {
@@ -62,7 +59,7 @@ sub run (&@) {
         );
     }
 
-    my $app = $ORIGIN_RUN->($caller);
+    my $app = Nephia::GlobalVars->get('origin_run')->($caller);
 
     return $app;
 };
